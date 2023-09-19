@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #timer {
+            font-size: 48px;
+            margin-top: 20px;
+        }
+        #buttons {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pomodoro Timer</h1>
+    <div id="timer">25:00</div>
+    <div id="buttons">
+        <button onclick="startPomodoro()">Start Pomodoro</button>
+        <button onclick="startShortBreak()">Start Short Break</button>
+        <button onclick="startLongBreak()">Start Long Break</button>
+        <button onclick="stopTimer()">Stop</button>
+    </div>
+
+    <script>
+        let timer;
+        let minutes;
+        let seconds;
+
+        function startTimer(duration) {
+            minutes = Math.floor(duration / 60);
+            seconds = duration % 60;
+
+            timer = setInterval(function () {
+                updateTimerDisplay();
+                if (minutes === 0 && seconds === 0) {
+                    clearInterval(timer);
+                    alert("Time's up!");
+                } else {
+                    if (seconds === 0) {
+                        minutes--;
+                        seconds = 59;
+                    } else {
+                        seconds--;
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const timerDisplay = document.getElementById("timer");
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startPomodoro() {
+            clearInterval(timer);
+            startTimer(25 * 60);
+        }
+
+        function startShortBreak() {
+            clearInterval(timer);
+            startTimer(5 * 60);
+        }
+
+        function startLongBreak() {
+            clearInterval(timer);
+            startTimer(15 * 60);
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            updateTimerDisplay();
+        }
+    </script>
+</body>
+</html>
